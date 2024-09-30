@@ -6,7 +6,7 @@
  * Version:     1.0
  * Author:      Amir Tanazzoh
  * Author URI:  https://cyandm.com
- * License:     GPL2
+ * License:     GPL
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
