@@ -1,45 +1,82 @@
-const { exec } = require('child_process');
-const fs = require('fs');
+// توکن GitHub و اطلاعات ریپازیتوری
+const GITHUB_TOKEN =
+	'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';
+const OWNER = 'cyandm'; // نام کاربری یا سازمان گیت‌هاب
+const REPO = 'cyan-plugin'; // نام ریپازیتوری
 
-const filePath = './output.zip'; // Path to the file
-const version = process.argv[2]; // Version number
-const repositoryUrl = 'https://github.com/cyandm/cyan-plugin'; // Repository URL
+// اطلاعات تگ و ریلیز
+const tagName = 'v1.0.5';
+const targetCommitish = 'main';
+const releaseName = 'v1.0.5';
+const releaseBody = 'This is the release description';
 
-if (!filePath || !version || !repositoryUrl) {
-	console.error('Please specify the file path, version, and repository URL.');
-	process.exit(1);
-}
+// تابع برای ساخت تگ
+async function createTag() {
+	const url = `https://api.github.com/repos/${OWNER}/${REPO}/git/tags`;
+	const tagData = {
+		tag: tagName,
+		message: releaseBody,
+		object: targetCommitish, // commit یا برنچ مورد نظر
+		type: 'commit',
+		tagger: {
+			name: 'Your Name',
+			email: 'your-email@example.com',
+			date: new Date().toISOString(),
+		},
+	};
 
-// Check if the file exists
-if (!fs.existsSync(filePath)) {
-	console.error(`File ${filePath} does not exist.`);
-	process.exit(1);
-}
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: {
+			Authorization: `token ${GITHUB_TOKEN}`,
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(tagData),
+	});
 
-// Stage the file
-exec(`git add ${filePath}`, (error, stdout, stderr) => {
-	if (error) {
-		console.error(`Error adding file: ${stderr}`);
-		return;
+	if (!response.ok) {
+		throw new Error(`Failed to create tag: ${response.statusText}`);
 	}
 
-	// Create the new tag
-	exec(`git tag v${version}`, (error, stdout, stderr) => {
-		if (error) {
-			console.error(`Error creating tag: ${stderr}`);
-			return;
-		}
+	const tag = await response.json();
+	console.log('Tag created:', tag);
+}
 
-		// Push the tag to the specified repository
-		exec(`git push ${repositoryUrl} v${version}`, (error, stdout, stderr) => {
-			if (error) {
-				console.error(`Error pushing tag: ${stderr}`);
-				return;
-			}
+// تابع برای ساخت ریلیز
+async function createRelease() {
+	const url = `https://api.github.com/repos/${OWNER}/${REPO}/releases`;
+	const releaseData = {
+		tag_name: tagName,
+		target_commitish: targetCommitish,
+		name: releaseName,
+		body: releaseBody,
+		draft: false,
+		prerelease: false,
+	};
 
-			console.log(
-				`Tag v${version} created and pushed to ${repositoryUrl} successfully.`
-			);
-		});
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: {
+			Authorization: `token ${GITHUB_TOKEN}`,
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(releaseData),
 	});
-});
+
+	if (!response.ok) {
+		throw new Error(`Failed to create release: ${response.statusText}`);
+	}
+
+	const release = await response.json();
+	console.log('Release created:', release);
+}
+
+// اجرای فرآیند ساخت تگ و ریلیز
+(async () => {
+	try {
+		await createTag(); // ابتدا تگ ایجاد می‌شود
+		await createRelease(); // سپس ریلیز ایجاد می‌شود
+	} catch (error) {
+		console.error('Error:', error.message);
+	}
+})();

@@ -34,7 +34,13 @@ class GithubUpdater {
 		}
 
 		// GitHub API URL
-		$remote = wp_remote_get( 'https://api.github.com/repos/cyandm/cyan-plugin/releases/latest', );
+		$remote = wp_remote_get( 'https://api.github.com/repos/cyandm/cyan-plugin/releases/latest', [ 
+			'headers' => [ 
+				'Authorization' => 'Bearer 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',
+				'Accept' => 'application/vnd.github.v3+json',
+				'X-GitHub-Api-Version' => '2022-11-28'
+			]
+		] );
 
 
 		var_dump( $remote );
