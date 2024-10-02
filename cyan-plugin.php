@@ -4,7 +4,7 @@ use CyanPlugin\Admin\GithubUpdater;
  * Plugin Name: پلاگین سایان
  * Plugin URI:  https://example.com/cyan-plugin
  * Description: مدیریت سایان
- * Version:     1.0
+ * Version:     1.0.3
  * Author:      Amir Tanazzoh
  * Author URI:  https://cyandm.com
  * License:     GPL
