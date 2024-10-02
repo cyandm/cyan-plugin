@@ -26,7 +26,7 @@ define( 'CYAN_PLUGIN_TEMPLATES', CYAN_PLUGIN_PATH . 'templates/' );
 define( 'CYAN_PLUGIN_THIRD_PARTY', CYAN_PLUGIN_PATH . 'third-party-plugins/' );
 
 // Define constant deploy
-define( 'CYAN_PLUGIN_VERSION', '1.0' );
+define( 'CYAN_PLUGIN_VERSION', '1.2.2' );
 define( 'CYAN_PLUGIN_DEPLOY', false );
 
 // Use the Init class to start the plugin
