@@ -40,7 +40,7 @@ class GithubUpdater {
 		if ( ! is_wp_error( $remote ) ) {
 			$remote = json_decode( wp_remote_retrieve_body( $remote ) );
 			if ( $remote && version_compare( $this->plugin['Version'], $remote->tag_name, '<' ) ) {
-				$response = new stdClass();
+				$response = new \stdClass();
 				$response->slug = $this->basename;
 				$response->new_version = $remote->tag_name;
 				$response->package = $remote->zipball_url;
