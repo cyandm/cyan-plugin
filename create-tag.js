@@ -1,82 +1,51 @@
-// توکن GitHub و اطلاعات ریپازیتوری
-const GITHUB_TOKEN =
-	'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';
-const OWNER = 'cyandm'; // نام کاربری یا سازمان گیت‌هاب
-const REPO = 'cyan-plugin'; // نام ریپازیتوری
+const axios = require('axios');
+const { execSync } = require('child_process');
 
-// اطلاعات تگ و ریلیز
-const tagName = 'v1.0.5';
-const targetCommitish = 'main';
-const releaseName = 'v1.0.5';
-const releaseBody = 'This is the release description';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // توکن را از محیط دریافت می‌کند
+const REPO_OWNER = 'cyandm'; // نام کاربری شما در گیت‌هاب
+const REPO_NAME = 'cyan-plugin'; // نام ریپازیتوری شما
+const TAG_NAME = `v${new Date().toISOString().slice(0, 10)}`; // ایجاد تگ با تاریخ
 
-// تابع برای ساخت تگ
-async function createTag() {
-	const url = `https://api.github.com/repos/${OWNER}/${REPO}/git/tags`;
-	const tagData = {
-		tag: tagName,
-		message: releaseBody,
-		object: targetCommitish, // commit یا برنچ مورد نظر
-		type: 'commit',
-		tagger: {
-			name: 'Your Name',
-			email: 'your-email@example.com',
-			date: new Date().toISOString(),
-		},
-	};
-
-	const response = await fetch(url, {
-		method: 'POST',
-		headers: {
-			Authorization: `token ${GITHUB_TOKEN}`,
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(tagData),
-	});
-
-	if (!response.ok) {
-		throw new Error(`Failed to create tag: ${response.statusText}`);
-	}
-
-	const tag = await response.json();
-	console.log('Tag created:', tag);
-}
-
-// تابع برای ساخت ریلیز
 async function createRelease() {
-	const url = `https://api.github.com/repos/${OWNER}/${REPO}/releases`;
-	const releaseData = {
-		tag_name: tagName,
-		target_commitish: targetCommitish,
-		name: releaseName,
-		body: releaseBody,
-		draft: false,
-		prerelease: false,
-	};
+	try {
+		// ایجاد تگ جدید
+		await axios.post(
+			`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/git/refs`,
+			{
+				ref: `refs/tags/${TAG_NAME}`,
+				sha: execSync('git rev-parse HEAD').toString().trim(), // آخرین SHA از کامیت
+			},
+			{
+				headers: {
+					Authorization: `token ${GITHUB_TOKEN}`,
+					'Content-Type': 'application/json',
+				},
+			}
+		);
 
-	const response = await fetch(url, {
-		method: 'POST',
-		headers: {
-			Authorization: `token ${GITHUB_TOKEN}`,
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(releaseData),
-	});
+		// ایجاد ریلیز
+		await axios.post(
+			`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases`,
+			{
+				tag_name: TAG_NAME,
+				name: TAG_NAME,
+				body: 'Release created automatically via GitHub Actions',
+			},
+			{
+				headers: {
+					Authorization: `token ${GITHUB_TOKEN}`,
+					'Content-Type': 'application/json',
+				},
+			}
+		);
 
-	if (!response.ok) {
-		throw new Error(`Failed to create release: ${response.statusText}`);
+		console.log(`Release ${TAG_NAME} created successfully.`);
+	} catch (error) {
+		console.error(
+			`Error: ${error.response ? error.response.data.message : error.message}`
+		);
 	}
-
-	const release = await response.json();
-	console.log('Release created:', release);
 }
 
-// اجرای فرآیند ساخت تگ و ریلیز
-(async () => {
-	try {
-		await createTag(); // ابتدا تگ ایجاد می‌شود
-		await createRelease(); // سپس ریلیز ایجاد می‌شود
-	} catch (error) {
-		console.error('Error:', error.message);
-	}
-})();
+// اجرای تابع ایجاد ریلیز
+createRelease();

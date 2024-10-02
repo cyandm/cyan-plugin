@@ -1,17 +1,6 @@
 # Node modules
 node_modules/
 
-# Build output
-assets/css/style.css
-assets/js/bundle.js
-
-# Tailwind CSS and esbuild output
-assets/css/*.css
-assets/js/*.js
-
-# Third Plugin
-third-party-plugins
-
 # Composer vendor directory
 /vendor/
 
