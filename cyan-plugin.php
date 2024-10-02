@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 // Define constant paths
+define( 'CYAN_PLUGIN_DIR', __FILE__ );
 define( 'CYAN_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CYAN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CYAN_PLUGIN_ASSETS', CYAN_PLUGIN_URL . 'assets/' );

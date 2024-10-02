@@ -27,12 +27,22 @@ class GithubUpdater {
 	}
 
 	public function check_for_update( $transient ) {
+
+
 		if ( empty( $transient->checked ) ) {
 			return $transient;
 		}
 
 		// GitHub API URL
-		$remote = wp_remote_get( 'https://api.github.com/cyandm/cyan-plugin/repository/releases/latest' );
+		$remote = wp_remote_get( 'https://api.github.com/repos/cyandm/cyan-plugin/releases/latest', [ 
+			'headers' => [ 
+				'Authorization' => 'token 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',
+				'Accept' => 'application/vnd.github.v3+json',
+			]
+		] );
+
+
+		var_dump( $remote );
 
 		if ( ! is_wp_error( $remote ) ) {
 			$remote = json_decode( wp_remote_retrieve_body( $remote ) );
@@ -49,14 +59,24 @@ class GithubUpdater {
 	}
 
 	public function plugins_api_call( $false, $action, $response ) {
-		if ( isset( $response->slug ) && $response->slug === $this->basename ) {
+		if ( is_object( $response ) && isset( $response->slug ) && $response->slug === $this->basename ) {
 			$remote = wp_remote_get( 'https://api.github.com/repos/cyandm/cyan-plugin' );
+
 			if ( ! is_wp_error( $remote ) ) {
-				$remote = json_decode( wp_remote_retrieve_body( $remote ) );
-				$response->new_version = $remote->tag_name;
-				$response->package = $remote->zipball_url;
+				$remote_body = wp_remote_retrieve_body( $remote );
+				$remote_data = json_decode( $remote_body );
+
+				if ( isset( $remote_data->tag_name ) && isset( $remote_data->zipball_url ) ) {
+					$response->new_version = $remote_data->tag_name;
+					$response->package = $remote_data->zipball_url;
+				} else {
+					error_log( 'Invalid response structure from GitHub API' );
+				}
+			} else {
+				error_log( 'Error fetching data from GitHub: ' . $remote->get_error_message() );
 			}
 		}
+
 		return $response;
 	}
 

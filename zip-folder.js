@@ -11,7 +11,6 @@ const archive = archiver('zip', { zlib: { level: 9 } });
 const exceptFolders = [
 	'.git',
 	'node_modules',
-	'vendor',
 	'.gitignore',
 	'composer.json',
 	'composer.lock',

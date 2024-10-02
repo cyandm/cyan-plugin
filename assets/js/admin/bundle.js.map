@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["modules/CopyButtons.js"],
-  "sourcesContent": ["function CopyButtons() {\r\n\tconst buttons = document.querySelectorAll('button[data-copy]');\r\n\tif (!buttons) return;\r\n\r\n\tbuttons.forEach((btn) => {\r\n\t\tbtn.addEventListener('click', (e) => {\r\n\t\t\te.preventDefault();\r\n\t\t\tnavigator.clipboard\r\n\t\t\t\t.writeText(btn.dataset.copy)\r\n\t\t\t\t.then(() => {\r\n\t\t\t\t\talert(btn.dataset.copy + ' \u06A9\u067E\u06CC \u0634\u062F!');\r\n\t\t\t\t})\r\n\t\t\t\t.catch((error) => {\r\n\t\t\t\t\talert('\u062E\u0637\u0627 \u062F\u0631 \u06A9\u067E\u06CC \u06A9\u0631\u062F\u0646: ' + error);\r\n\t\t\t\t});\r\n\t\t});\r\n\t});\r\n}\r\n\r\nCopyButtons();\r\n"],
+  "sourcesContent": ["function CopyButtons() {\n\tconst buttons = document.querySelectorAll('button[data-copy]');\n\tif (!buttons) return;\n\n\tbuttons.forEach((btn) => {\n\t\tbtn.addEventListener('click', (e) => {\n\t\t\te.preventDefault();\n\t\t\tnavigator.clipboard\n\t\t\t\t.writeText(btn.dataset.copy)\n\t\t\t\t.then(() => {\n\t\t\t\t\talert(btn.dataset.copy + ' \u06A9\u067E\u06CC \u0634\u062F!');\n\t\t\t\t})\n\t\t\t\t.catch((error) => {\n\t\t\t\t\talert('\u062E\u0637\u0627 \u062F\u0631 \u06A9\u067E\u06CC \u06A9\u0631\u062F\u0646: ' + error);\n\t\t\t\t});\n\t\t});\n\t});\n}\n\nCopyButtons();\n"],
   "mappings": "MAAA,SAASA,GAAc,CACtB,IAAMC,EAAU,SAAS,iBAAiB,mBAAmB,EACxDA,GAELA,EAAQ,QAASC,GAAQ,CACxBA,EAAI,iBAAiB,QAAUC,GAAM,CACpCA,EAAE,eAAe,EACjB,UAAU,UACR,UAAUD,EAAI,QAAQ,IAAI,EAC1B,KAAK,IAAM,CACX,MAAMA,EAAI,QAAQ,KAAO,mCAAU,CACpC,CAAC,EACA,MAAOE,GAAU,CACjB,MAAM,gFAAsBA,CAAK,CAClC,CAAC,CACH,CAAC,CACF,CAAC,CACF,CAEAJ,EAAY",
   "names": ["CopyButtons", "buttons", "btn", "e", "error"]
 }

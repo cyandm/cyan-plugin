@@ -17,6 +17,7 @@ class Init {
 			\CyanPlugin\Assets\Enqueue::class,
 			/*Admin */
 			\CyanPlugin\Admin\AdminMenu::class,
+			\CyanPlugin\Admin\Dependecies::class,
 
 
 			/*Frontend */
