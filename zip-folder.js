@@ -28,6 +28,10 @@ let processedFiles = 0;
 async function countFiles(dir) {
 	const files = await fs.promises.readdir(dir);
 	for (const file of files) {
+		if (exceptFolders.includes(file)) {
+			continue; // اگر در آرایه exceptFolders باشد، از شمارش صرف‌نظر کن
+		}
+
 		const filePath = path.join(dir, file);
 		const stat = await fs.promises.stat(filePath);
 		if (stat.isDirectory()) {
@@ -38,12 +42,14 @@ async function countFiles(dir) {
 	}
 }
 
-archive.on('progress', function (data) {
-	const percent = ((processedFiles / totalFiles) * 100).toFixed(2);
-	console.log(`progress: ${percent}%`);
-});
-
 output.on('close', function () {
+	console.table([
+		{
+			total: totalFiles,
+			processed: processedFiles,
+		},
+	]);
+
 	console.log(`${archive.pointer()} total bytes`);
 	console.log('successful!');
 });
@@ -69,16 +75,20 @@ async function addFilesToArchive(dir) {
 		const stat = await fs.promises.stat(filePath);
 
 		if (stat.isDirectory()) {
-			// اگر دایرکتوری است، به آرشیو اضافه کنید و به داخل آن بروید
-			archive.directory(filePath + '/', relativePath + '/');
+			// اگر دایرکتوری است، به آرشیو اضافه کنید
 			await addFilesToArchive(filePath); // پیمایش دایرکتوری‌های زیرین
 		} else {
 			archive.file(filePath, { name: relativePath });
+			processedFiles++; // افزایش تعداد فایل‌های پردازش‌شده
 		}
 	}
+
+	const percent = ((processedFiles / totalFiles) * 100).toFixed(0);
+	console.log(`progress: ${percent}%`);
 }
 
 (async () => {
+	await countFiles(folderToZip); // ابتدا شمارش فایل‌ها
 	await addFilesToArchive(folderToZip);
 	archive.finalize();
 })();

@@ -17,6 +17,8 @@ class Init {
 			\CyanPlugin\Assets\Enqueue::class,
 			/*Admin */
 			\CyanPlugin\Admin\AdminMenu::class,
+
+
 			/*Frontend */
 			\CyanPlugin\Frontend\Shortcodes::class,
 			/*ACF */

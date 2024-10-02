@@ -1,4 +1,5 @@
 <?php
+use CyanPlugin\Admin\GithubUpdater;
 /**
  * Plugin Name: پلاگین سایان
  * Plugin URI:  https://example.com/cyan-plugin
@@ -30,4 +31,8 @@ define( 'CYAN_PLUGIN_DEPLOY', false );
 // Use the Init class to start the plugin
 if ( class_exists( 'CyanPlugin\Core\Init' ) ) {
 	CyanPlugin\Core\Init::register_services();
+}
+
+if ( is_admin() ) {
+	$updater = new GithubUpdater( __FILE__ );
 }
