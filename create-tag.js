@@ -1,4 +1,5 @@
 const axios = require('axios');
+const fetch = require('node-fetch');
 const { execSync } = require('child_process');
 
 const GITHUB_TOKEN = process.env.TOKEN; // توکن را از محیط دریافت می‌کند
@@ -70,5 +71,5 @@ async function createRelease(tagname) {
 	const commitMessage = await getCommitMessage(REPO_NAME, sha, GITHUB_TOKEN);
 	const TAG_NAME = commitMessage; // استفاده از پیام کامیت به عنوان نام تگ
 
-	createRelease(TAG_NAME);
+	await createRelease(TAG_NAME);
 })();
