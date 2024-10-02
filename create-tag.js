@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { execSync } = require('child_process');
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // توکن را از محیط دریافت می‌کند
+const GITHUB_TOKEN = process.env.TOKEN; // توکن را از محیط دریافت می‌کند
 const REPO_OWNER = 'cyandm'; // نام کاربری شما در گیت‌هاب
 const REPO_NAME = 'cyan-plugin'; // نام ریپازیتوری شما
 const sha = process.env.GITHUB_SHA; // SHA آخرین کامیت
@@ -67,7 +67,7 @@ async function createRelease(tagname) {
 }
 
 (async () => {
-	const commitMessage = await getCommitMessage(repo, sha, token);
+	const commitMessage = await getCommitMessage(REPO_NAME, sha, GITHUB_TOKEN);
 	const TAG_NAME = commitMessage; // استفاده از پیام کامیت به عنوان نام تگ
 
 	createRelease(TAG_NAME);
