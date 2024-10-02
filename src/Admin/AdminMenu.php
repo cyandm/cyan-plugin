@@ -10,7 +10,7 @@ class AdminMenu {
 	public function add_admin_pages() {
 		add_menu_page(
 			'CyanPlugin',
-			'Cyan Plugin',
+			'پلاگین سایان',
 			'manage_options',
 			'cyan_plugin',
 			[ $this, 'admin_index' ],
@@ -20,6 +20,6 @@ class AdminMenu {
 	}
 
 	public function admin_index() {
-		require_once CYAN_PLUGIN_TEMPLATES . '/admin.php';
+		cp_get_template( 'admin', 'admin-panel' );
 	}
 }

@@ -3,12 +3,17 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"watch:js": "npm run build:js -- --watch",
-		"watch:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/css/style.css --watch",
-		"build:js": "node build.js",
-		"build:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/css/style.min.css --minify",
-		"build": "npm run build:css && npm run build:js"
+		"watch:js-client": "esbuild ./assets/js/client/index.js --outfile=./assets/js/client/bundle.js --target=es6,chrome58,edge18,firefox54,safari11 --bundle --watch",
+		"watch:js-admin": "esbuild ./assets/js/admin/index.js --outfile=./assets/js/admin/bundle.js --target=es6,chrome58,edge18,firefox54,safari11 --bundle --watch",
+		"watch:css-client": "tailwindcss  -i ./assets/css/client/tailwind.css -o ./assets/css/client/style.css --watch --config tailwind.client.config.js",
+		"watch:css-admin": "tailwindcss  -i ./assets/css/admin/tailwind.css -o ./assets/css/admin/style.css --watch --config tailwind.admin.config.js",
+		"watch": "concurrently \"npm run watch:js-client\" \"npm run watch:js-admin\" \"npm run watch:css-client\" \"npm run watch:css-admin\"",
+		"build:js-client": "esbuild ./assets/js/client/index.js --outfile=./assets/js/client/bundle.js --target=es6,chrome58,edge18,firefox54,safari11 --bundle --minify --sourcemap",
+		"build:js-admin": "esbuild ./assets/js/admin/index.js --outfile=./assets/js/admin/bundle.js --target=es6,chrome58,edge18,firefox54,safari11 --bundle --minify --sourcemap",
+		"build:css-client": "tailwindcss  -i ./assets/css/client/tailwind.css -o ./assets/css/client/style.css --config tailwind.client.config.js --minify",
+		"build:css-admin": "tailwindcss  -i ./assets/css/admin/tailwind.css -o ./assets/css/admin/style.css --config tailwind.admin.config.js",
+		"build-files": "npm run build:css-admin && npm run build:css-client && npm run build:js-admin && npm run build:js-client",
+		"build": "npm run build-files && node zip-folder.js"
 	},
 	"keywords": [],
 	"author": "",

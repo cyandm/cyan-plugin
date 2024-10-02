@@ -6,9 +6,22 @@ class Init {
 	public static function get_services() {
 		return [ 
 			Activator::class,
+			FunctionsAutoload::class,
+			/*Includes*/
+			\CyanPlugin\Includes\ThirdPartyPluginManager::class,
+			\CyanPlugin\Includes\CustomPostType::class,
+			\CyanPlugin\Includes\MetaBox::class,
+			\CyanPlugin\Includes\Columns::class,
+
+			/*Assets */
 			\CyanPlugin\Assets\Enqueue::class,
+			/*Admin */
 			\CyanPlugin\Admin\AdminMenu::class,
+			/*Frontend */
 			\CyanPlugin\Frontend\Shortcodes::class,
+			/*ACF */
+			\CyanPlugin\ACF\ACFField::class,
+			\CyanPlugin\ACF\ACFFieldRegistrar::class,
 		];
 	}
 

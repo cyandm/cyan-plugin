@@ -9,6 +9,9 @@ assets/js/bundle.js
 assets/css/*.css
 assets/js/*.js
 
+# Third Plugin
+third-party-plugins
+
 # Composer vendor directory
 /vendor/
 

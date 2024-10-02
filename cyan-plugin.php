@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Cyan Plugin
+ * Plugin Name: پلاگین سایان
  * Plugin URI:  https://example.com/cyan-plugin
- * Description: A plugin to manage cyan custom theme
+ * Description: مدیریت سایان
  * Version:     1.0
  * Author:      Amir Tanazzoh
  * Author URI:  https://cyandm.com
@@ -21,6 +21,7 @@ define( 'CYAN_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CYAN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CYAN_PLUGIN_ASSETS', CYAN_PLUGIN_URL . 'assets/' );
 define( 'CYAN_PLUGIN_TEMPLATES', CYAN_PLUGIN_PATH . 'templates/' );
+define( 'CYAN_PLUGIN_THIRD_PARTY', CYAN_PLUGIN_PATH . 'third-party-plugins/' );
 
 // Define constant deploy
 define( 'CYAN_PLUGIN_VERSION', '1.0' );

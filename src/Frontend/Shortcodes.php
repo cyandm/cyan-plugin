@@ -4,16 +4,10 @@ namespace CyanPlugin\Frontend;
 
 class Shortcodes {
 	public function register() {
-		add_shortcode( 'cyan_items', [ $this, 'display_items' ] );
+		add_shortcode( 'cyan_cta', [ $this, 'display_cta' ] );
 	}
 
-	public function display_items() {
-		$items = [ 'Item 1', 'Item 2', 'Item 3' ];
-		$output = '<ul>';
-		foreach ( $items as $item ) {
-			$output .= '<li>' . esc_html( $item ) . '</li>';
-		}
-		$output .= '</ul>';
-		return $output;
+	public function display_cta( $args ) {
+		cp_get_template( 'client', 'display-cta', $args );
 	}
 }
