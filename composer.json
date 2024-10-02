@@ -1,0 +1,28 @@
+{
+	"autoload": {
+		"psr-4": {
+			"CyanPlugin\\": "src/"
+		}
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://wpackagist.org"
+		}
+	],
+	"require": {
+		"wpackagist-plugin/advanced-custom-fields": "6.3.5"
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true
+		}
+	},
+	"extra": {
+		"installer-paths": {
+			"third-party-plugins/{$name}/": [
+				"type:wordpress-plugin"
+			]
+		}
+	}
+}
