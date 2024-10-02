@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // توکن را از محیط دریافت می‌کند
 const REPO_OWNER = 'cyandm'; // نام کاربری شما در گیت‌هاب
 const REPO_NAME = 'cyan-plugin'; // نام ریپازیتوری شما
-const TAG_NAME = `v${new Date().toISOString().slice(0, 10)}`; // ایجاد تگ با تاریخ
+const TAG_NAME = `v1.2.2`; // ایجاد تگ با تاریخ
 
 async function createRelease() {
 	try {
