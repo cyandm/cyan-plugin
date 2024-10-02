@@ -24,10 +24,10 @@ exec(`git add ${filePath}`, (error, stdout, stderr) => {
 
 	// Create the new tag
 	exec(
-		`git commit -m "Add ${filePath}" && git tag v${version}`,
+		`git commit -a -m "Add ${filePath}" && git tag v${version}`,
 		(error, stdout, stderr) => {
 			if (error) {
-				console.error(`Error creating tag: ${stderr}`);
+				console.error(`Error creating tag: ${stdout}`);
 				return;
 			}
 
